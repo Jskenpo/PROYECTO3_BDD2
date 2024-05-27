@@ -3,10 +3,23 @@ from datetime import datetime
 
 class Header:
 
-    def __init__(self, name):
+    def __init__(self, name, ultimaMod=None, enabled=None):
         self.name = name
-        self.ultimaMod = datetime.now().isoformat()
-        self.enabled = True
+        if ultimaMod is not None:
+            self.ultimaMod = ultimaMod
+        else:
+            self.ultimaMod = datetime.now().isoformat()
+        if enabled is not None:
+            self.enabled = enabled
+        else:
+            self.enabled = True
+    
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "ultimaMod": self.ultimaMod,
+            "enabled": self.enabled
+        }
 
     def updateLastMod(self):
         self.ultimaMod = datetime.now().isoformat()

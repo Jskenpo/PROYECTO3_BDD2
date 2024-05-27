@@ -1,16 +1,24 @@
-from .timestamp import TimeStamp
+from .timestamp import Versiones
 
 class Column:
 
-    def __init__(self, name, type, value, timestamp):
+    def __init__(self, name, type, columnFamily, versiones):
         self.name = name
         self.type = type
-        self.value = value
-        self.timestamp = [timestamp]
+        self.columnFamily = columnFamily
+        self.versiones = [versiones]
 
-    def addTimestamp(self, timestamp, version):
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "type": self.type,
+            "columnFamily": self.columnFamily,
+            "versiones": [t.to_dict() for t in self.versiones]
+        }
+
+    def addVersiones(self, timestamp, version, value):
         self.timestamp.append(
-            TimeStamp(timestamp=timestamp, version=version)
+            Versiones(value = value, timestamp=timestamp, version=version)
             )
 
     def getName(self):
@@ -22,5 +30,8 @@ class Column:
     def getValue(self):
         return self.value
     
-    def getTimestamp(self):
-        return self.timestamp
+    def getVersiones(self):
+        return self.versiones
+    
+    def getColumnFamily(self):
+        return self.columnFamily

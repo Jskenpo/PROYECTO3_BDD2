@@ -1,24 +1,37 @@
 from datetime import datetime
 
 from .columns import Column
-from .timestamp import TimeStamp
+from .timestamp import Versiones
 from .metadata import Header
 
 class Data:
-    def __init__(self, tablename,indexRow,columnFamily):
+    def __init__(self, tablename, indexRow, columns=None, metadata=None):
         self.tablename = tablename
         self.indexRow = indexRow
-        self.columnFamily = columnFamily
-        self.columns = []
-        self.metadata = Header(tablename)
+        if columns is not None:
+            self.columns = columns
+        else:
+            self.columns = []
+        if metadata is not None:
+            self.metadata = metadata
+        else:
+            self.metadata = Header(tablename)
 
-    def addColumn(self, name, type, value):
+    def to_dict(self):
+        return {
+            "tablename": self.tablename,
+            "indexRow": self.indexRow,
+            "columns": [c.to_dict() for c in self.columns],
+            "metadata": self.metadata.to_dict()
+        }
+
+    def addColumn(self, name, type, value, columnFamily):
         self.columns.append(
             Column(
                 name = name, 
                 type = type, 
-                value = value, 
-                timestamp = TimeStamp( datetime.now().isoformat(), 1)
+                columnFamily = columnFamily,
+                versiones = Versiones(value = value, timestamp=datetime.now().isoformat(), version=1)
                 )
             )
 
@@ -27,9 +40,6 @@ class Data:
     
     def getIndexRow(self):
         return self.indexRow
-    
-    def getColumnFamily(self):
-        return self.columnFamily
     
     def getColumns(self):
         return self.columns

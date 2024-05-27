@@ -3,26 +3,28 @@
       {
         "name": "tablename",
         "indexRow": 1,
-        "columnFamily": "cf1",
         "rows": [
           {
             "columns": [
               {
+                "columnFamily": "cf1",
                 "name": "col1",
                 "type": "string",
-                "value": "value1",
-                "timestamp": [
+                "versiones": [
                   {
+                    "value": "value1",
                     "timestamp": "2016-01-01T00:00:00Z",
                     "version": 2
                   },
                   {
+                    "value": "value1",
                     "timestamp": "2016-01-01T00:00:00Z",
                     "version": 1
                   }
                 ]
               },
               {
+                "columnFamily": "cf2",
                 "name": "col2",
                 "type": "int",
                 "value": "value2",
