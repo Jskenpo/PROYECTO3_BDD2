@@ -1,0 +1,91 @@
+{
+    "Header": {
+      "name": "tablename",
+      "ultimaMod": "2016-01-01T00:00:00Z",
+      "enabled": true
+    },
+    "Data": [
+      {
+        "indexRow": 1,
+        "columnFamily": "cf1",
+        "rows": [
+          {
+            "columns": [
+              {
+                "name": "col1",
+                "type": "string",
+                "value": "value1",
+                "timestamp": [
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 2
+                  },
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "name": "col2",
+                "type": "int",
+                "value": "value2",
+                "timestamp": [
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 2
+                  },
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "rowIndex": 2,
+        "columnFamily": "cf2",
+        "rows": [
+          {
+            "columns": [
+              {
+                "name": "col1",
+                "type": "string",
+                "value": "value1",
+                "timestamp": [
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 2
+                  },
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "name": "col2",
+                "type": "int",
+                "value": "value2",
+                "timestamp": [
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 2
+                  },
+                  {
+                    "timestamp": "2016-01-01T00:00:00Z",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
+  
