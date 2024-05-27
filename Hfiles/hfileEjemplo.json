@@ -1,11 +1,7 @@
 {
-    "Header": {
-      "name": "tablename",
-      "ultimaMod": "2016-01-01T00:00:00Z",
-      "enabled": true
-    },
     "Data": [
       {
+        "name": "tablename",
         "indexRow": 1,
         "columnFamily": "cf1",
         "rows": [
@@ -46,6 +42,7 @@
         ]
       },
       {
+        "name": "tablename",
         "rowIndex": 2,
         "columnFamily": "cf2",
         "rows": [
