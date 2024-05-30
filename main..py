@@ -13,13 +13,38 @@ def printMain():
     #clear a console
     print("\033[H\033[J")
     menu = """
-    1. Create Table
-    2. Add Column
-    3. Mostrar Tabla
-    4. Salir
+    1. Create Table *
+    2. Add Column *
+    3. scan --- (Mostrar toda la tabla)                                                                                 (Tevi)
+    4. Deshabilitar tabla *
+    5. Alter table --- (Agregar o quitar cf, cambio de indexrow, cambio version de version obj)                         (Valdez)
+    6. Drop table --- (Borrar tabla si esta deshabilitada)                                                              (Manuel)
+    8. Describe table --- (Mostrar metadata)                                                                            (Master)
+    9. Put --- (Insertar y editar celdas)
+    10. Delete --- (Borrar vercion o versiones)                                                                         (Sol)
+    11. Count --- (Contar distinc clmID)                                                                                (Master)
+    12. Truncate --- (chequeo de habilitada deshabilitad, forza deshabilitar y elimina versiones y vuelve a activar)    (Sol)
+    13. Salir
     """
 
     print(menu)
+
+"""
+
+Row             Column+CELL
+clm.clmID       column=cf:name, timestamp=versiones[-1], value=versiones[-1].value
+
+"""
+
+def printDropMenu():
+    print("\033[H\033[J")
+    print("1. Drop Normal")
+    print("2. Drop All")
+
+def printDeleteMenu():
+    print("\033[H\033[J")
+    print("1. Delete Normal")
+    print("2. Delete All")
 
 def printJsons():
     print("\033[H\033[J")
@@ -118,7 +143,7 @@ while opcion != 4:
     printMain()
     opcion = int(input("Ingrese una opcion: "))
 
-    if (opcion > 4 or opcion < 1):
+    if (opcion > 5 or opcion < 1):
         print("-------------------")
         print("Opcion incorrecta")
         print("-------------------")
@@ -139,9 +164,8 @@ while opcion != 4:
         name = input("Ingrese el nombre de la columna: ")
         columnFamily = input("Ingrese el columnFamily: ")
         index = getIndextableData(table)
-        print(index)
-        print(data[index].getTableName())
         data[index].addColumn(name, type, value, columnFamily)
+        data[index].getMetadata().updateLastMod()
         rw.updateJson(data[index])
         print("-------------------")
         print("Columna agregada")
@@ -154,6 +178,20 @@ while opcion != 4:
         print("-------------------")
 
     elif opcion == 4:
+        table = readJson()
+        index = getIndextableData(table)
+        data[index].getMetadata().setDisabled()
+        rw.updateJson(data[index])
+        print("-------------------")
+        print("Tabla deshabilitada")
+        print("-------------------")
+
+    elif opcion == 5:
+        print("-------------------")
+        print("Alter table")
+        print("-------------------")
+
+    elif opcion == 8:
         print("-------------------")
         print("Saliendo")
         print("-------------------")

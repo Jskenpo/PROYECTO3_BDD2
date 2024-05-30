@@ -2,9 +2,10 @@ from .timestamp import Versiones
 
 class Column:
 
-    def __init__(self, name, type, columnFamily, versiones):
+    def __init__(self, clmID, name, type, columnFamily, versiones):
         self.name = name
         self.type = type
+        self.clmID = clmID
         self.columnFamily = columnFamily
         self.versiones = [versiones]
 
@@ -12,6 +13,7 @@ class Column:
         return {
             "name": self.name,
             "type": self.type,
+            "clmID": self.clmID,
             "columnFamily": self.columnFamily,
             "versiones": [t.to_dict() for t in self.versiones]
         }
@@ -35,3 +37,6 @@ class Column:
     
     def getColumnFamily(self):
         return self.columnFamily
+    
+    def getClmID(self):
+        return self.clmID

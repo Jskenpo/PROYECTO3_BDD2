@@ -25,6 +25,12 @@ class Data:
             "metadata": self.metadata.to_dict()
         }
 
+    # Update name
+    def updateName(self, name):
+        self.tablename = name
+        self.metadata.updateName(name)
+
+    # create
     def addColumn(self, name, type, value, columnFamily):
         self.columns.append(
             Column(
