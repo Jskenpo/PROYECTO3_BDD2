@@ -56,21 +56,25 @@ def printJsons():
 def readJson():
     printJsons()
     file = input("Ingrese el nombre del archivo: ")
-    jsonData = rw.readJson(file= file)
+    jsonData = rw.readJson(file=file)
+    
+    # Procesar columnas
     columnas = jsonData["columns"]
     clm = []
-    metadata = jsonData["metadata"]
-    mtd = []
-    vrs = []
     for c in columnas:
-        versiones = c["versiones"]
-        for v in versiones:
+        vrs = []
+        for v in c["versiones"]:
             vrs.append(Versiones(v["value"], v["timestamp"], v["version"]))
-
-        clm.append(Column(c["name"], c["type"], columnFamily=c["columnFamily"], versiones=vrs))
-    mtd.append(Header(name=metadata["name"], ultimaMod=metadata["ultimaMod"], enabled=metadata["enabled"]))
+        clm.append(Column(c["clmID"], c["name"], c["type"], c["columnFamily"], vrs))
+    
+    # Procesar metadata correctamente
+    metadata = jsonData["metadata"]
+    mtd = Header(name=metadata["name"], ultimaMod=metadata["ultimaMod"], enabled=metadata["enabled"])
+    
+    # Crear instancia de Data y agregarla a la lista
     data.append(Data(jsonData["tablename"], jsonData["indexRow"], clm, mtd))
-    return file
+    return jsonData["tablename"]
+
 
 
 
@@ -123,12 +127,29 @@ def printData():
         print("Ultima modificacion: ", d.getMetadata().getUltimaMod())
         print("Enabled: ", d.getMetadata().getEnabled())
 
-def printTable():
+def printTable(table):
     print("\033[H\033[J")
-    count = 1
-    for d in data:
-        print(count, "Tabla: ", d.getTableName())
-        count += 1
+    ftable = data[table]
+    uniqueCLMID = ftable.uniqueCLMID()
+
+    # imprimir de la manera anterior
+    print("Row\t\t\tColumn+CELL")
+
+    
+
+    for id in uniqueCLMID:
+        clm = ftable.getColumnsOfClmID(id)
+        for c in clm:
+            print(id, "\t\t\tcolumn=", c.getColumnFamily(), ":", c.getName(), ", timestamp=", c.getVersiones()[-1].getTimestamp(), ", value=", c.getVersiones()[-1].getValue())
+
+    while True:
+        print("1. Volver")
+        opcion = int(input("Ingrese una opcion: "))
+        if opcion == 1:
+            break
+    
+    
+
 
 def getIndextableData(table):
     count = 1
@@ -163,8 +184,9 @@ while opcion != 4:
         value = runSwitch(type)
         name = input("Ingrese el nombre de la columna: ")
         columnFamily = input("Ingrese el columnFamily: ")
+        clmID = input("Ingrese el Column ID: ")
         index = getIndextableData(table)
-        data[index].addColumn(name, type, value, columnFamily)
+        data[index].addColumn(clmID,name, type, value, columnFamily)
         data[index].getMetadata().updateLastMod()
         rw.updateJson(data[index])
         print("-------------------")
@@ -172,7 +194,10 @@ while opcion != 4:
         print("-------------------")
 
     elif opcion == 3:
-        printData()
+        table = readJson()
+        printTypeData()
+        index = getIndextableData(table)
+        printTable(index)
         print("-------------------")
         print("Tabla mostrada")
         print("-------------------")

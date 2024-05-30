@@ -28,3 +28,6 @@ class Versiones:
     
     def getVersion(self):
         return self.version
+    
+    def getValue(self):
+        return self.value

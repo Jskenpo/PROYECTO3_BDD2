@@ -1,0 +1,37 @@
+{
+    "tablename": "1",
+    "indexRow": 1,
+    "columns": [
+        {
+            "name": "prueba",
+            "type": 1,
+            "clmID": "prueba",
+            "columnFamily": "prueba",
+            "versiones": [
+                {
+                    "value": "prueba",
+                    "timestamp": "2024-05-29T19:27:10.739579",
+                    "version": 1
+                }
+            ]
+        },
+        {
+            "name": "age",
+            "type": 2,
+            "clmID": "prueba",
+            "columnFamily": "prueba",
+            "versiones": [
+                {
+                    "value": 14,
+                    "timestamp": "2024-05-29T19:37:27.533286",
+                    "version": 1
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "name": "1",
+        "ultimaMod": "2024-05-29T19:37:27.533358",
+        "enabled": true
+    }
+}

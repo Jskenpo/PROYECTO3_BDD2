@@ -24,6 +24,13 @@ class Data:
             "columns": [c.to_dict() for c in self.columns],
             "metadata": self.metadata.to_dict()
         }
+    
+    def uniqueCLMID(self):
+        return set(c.getClmID() for c in self.columns)
+    
+    def getColumnsOfClmID(self, clmID):
+        return [c for c in self.columns if c.getClmID() == clmID]
+
 
     # Update name
     def updateName(self, name):
@@ -31,13 +38,14 @@ class Data:
         self.metadata.updateName(name)
 
     # create
-    def addColumn(self, name, type, value, columnFamily):
+    def addColumn(self, clmID, name, type, value, columnFamily):
         self.columns.append(
             Column(
+                clmID= clmID,
                 name = name, 
                 type = type, 
                 columnFamily = columnFamily,
-                versiones = Versiones(value = value, timestamp=datetime.now().isoformat(), version=1)
+                versiones = [Versiones(value = value, timestamp=datetime.now().isoformat(), version=1)]
                 )
             )
 
@@ -52,3 +60,6 @@ class Data:
     
     def getMetadata(self):
         return self.metadata
+    
+    def lastMod(self):
+        self.metadata.updateLastMod()

@@ -7,7 +7,7 @@ class Column:
         self.type = type
         self.clmID = clmID
         self.columnFamily = columnFamily
-        self.versiones = [versiones]
+        self.versiones = versiones
 
     def to_dict(self):
         return {

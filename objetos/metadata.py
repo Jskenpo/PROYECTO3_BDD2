@@ -21,7 +21,6 @@ class Header:
             "enabled": self.enabled
         }
 
-    # update metadata
     def updateLastMod(self):
         self.ultimaMod = datetime.now().isoformat()
 
