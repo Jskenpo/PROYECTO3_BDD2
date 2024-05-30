@@ -231,7 +231,6 @@ while opcion != 13:
                 if back == "s":
                     break
             elif type == 2:
-                #regresar al menu principal
                 break    
 
     elif opcion == 13:
