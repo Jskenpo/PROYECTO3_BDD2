@@ -403,12 +403,15 @@ while opcion != 12:
         rowId = input("Ingrese el Row ID (Presione exit si no hay): ")
         if rowId == "exit":
             continue
-        cf = input("Ingrese el Column Family: ")
-        value = input("Ingrese el valor: ")
-        column = data[index].checkClm(cf, rowId)
-        column.addVersiones(datetime.now().isoformat(), int(column.getVersiones()[-1].getVersion())+1, value)
-        data[index].getMetadata().updateLastMod()
-        rw.updateJson(data[index])
+        try: 
+            cf = input("Ingrese el Column Family: ")
+            value = input("Ingrese el valor: ")
+            column = data[index].checkClm(cf, rowId)
+            column.addVersiones(datetime.now().isoformat(), int(column.getVersiones()[-1].getVersion())+1, value)
+            data[index].getMetadata().updateLastMod()
+            rw.updateJson(data[index])
+        except:
+            continue
         
     elif opcion == 9:
         print("-------------------")
