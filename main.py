@@ -37,7 +37,6 @@ clm.clmID       column=cf:name, timestamp=versiones[-1], value=versiones[-1].val
 """
 
 def printDropMenu():
-    print("\033[H\033[J")
     print("1. Drop All")
     print("2. Regresar")
 
@@ -227,6 +226,10 @@ while opcion != 13:
                 table = readJson()
                 index = getIndextableData(table)
                 rw.deleteJson(table, data[index].getMetadata().getEnabled())
+                print("-------------------")
+                back = input("Desea regresar al menu principal? (s/n): ")
+                if back == "s":
+                    break
             elif type == 2:
                 #regresar al menu principal
                 break    
