@@ -11,7 +11,7 @@ data = []
 
 def printMain():
     #clear a console
-    print("\033[H\033[J")
+    #print("\033[H\033[J")
     menu = """
     1. Create Table
     2. Add Column
@@ -226,9 +226,32 @@ while opcion != 13:
             table = readJson()
             index = getIndextableData(table)
             
-            rw.deleteJson(table, data[index].getMetadata().getEnabled())    
+            rw.deleteJson(table, data[index].getMetadata().getEnabled())   
+
+    elif opcion == 8:
+        table = readJson()
+        index = getIndextableData(table)
+        print("-------------------")
+        print("Nombre de la tabla: ", data[index].getTableName())
+        print("Ultima modificacion: ", data[index].getMetadata().getUltimaMod())
+        print("Enabled: ", data[index].getMetadata().getEnabled())
+        columnF =  data[index].getColumnFamily()
+        for column in columnF:
+            print("Column Family: ", column)
+            version = data[index].getVersionOfCF(column)
+            print("Version: ", version)
+        print("-------------------")
+
+    elif opcion == 11 :
+        table = readJson()
+        index = getIndextableData(table)
+        
+        print("-------------------")
+        print("Cantidad de filas en la tabla: ", len(data[index].uniqueCLMID()))
+        print("-------------------")
 
     elif opcion == 13:
         print("-------------------")
         print("Saliendo")
         print("-------------------")
+8

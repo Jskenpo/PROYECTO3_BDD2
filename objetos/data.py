@@ -61,5 +61,23 @@ class Data:
     def getMetadata(self):
         return self.metadata
     
+    def getColumnFamily(self):
+        #por cada columna, obtener el columnFamily y almacenarlo en una lista
+        lista = []
+        for column in self.columns:
+            #si el columnFamily no esta en la lista, agregarlo
+            if column.getColumnFamily() not in lista:
+                lista.append(column.getColumnFamily())
+        return lista
     def lastMod(self):
         self.metadata.updateLastMod()
+
+    def getVersionOfCF(self, columnFamily):
+        #por cada columna, obtener el columnFamily y almacenarlo en una lista
+        lista = []
+        for column in self.columns:
+            #si el columnFamily no esta en la lista, agregarlo
+            if column.getColumnFamily() == columnFamily:
+                #almacenar la version mas alta 
+                lista.append(column.getVersiones()[-1].getVersion())
+        return max(lista)

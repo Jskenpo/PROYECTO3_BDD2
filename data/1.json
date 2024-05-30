@@ -27,11 +27,24 @@
                     "version": 1
                 }
             ]
+        },
+        {
+            "name": "pitos",
+            "type": 1,
+            "clmID": "Tiviet",
+            "columnFamily": "genitales",
+            "versiones": [
+                {
+                    "value": "pene",
+                    "timestamp": "2024-05-29T22:29:19.141657",
+                    "version": 1
+                }
+            ]
         }
     ],
     "metadata": {
         "name": "1",
-        "ultimaMod": "2024-05-29T19:37:27.533358",
+        "ultimaMod": "2024-05-29T22:29:19.143081",
         "enabled": true
     }
 }
