@@ -56,6 +56,53 @@ class Data:
                 )
             )
 
+    def getVersionOfCF(self, columnFamily):
+        #por cada columna, obtener el columnFamily y almacenarlo en una lista
+        lista = []
+        for column in self.columns:
+            #si el columnFamily no esta en la lista, agregarlo
+            if column.getColumnFamily() == columnFamily:
+                #almacenar la version mas alta 
+                lista.append(column.getVersiones()[-1].getVersion())
+        if len(lista) == 0:
+            return lista.append("No hay versiones para el columnFamily")
+        return max(lista)
+    
+    def getColumnFamily(self):
+        #por cada columna, obtener el columnFamily y almacenarlo en una lista
+        lista = []
+        for column in self.columns:
+            #si el columnFamily no esta en la lista, agregarlo
+            if column.getColumnFamily() not in lista:
+                lista.append(column.getColumnFamily())
+
+        if len(lista) == 0:
+            return lista.append("No hay columnFamily")
+        return lista
+
+    def deleteVersion(self, clmID, columnFamily, column, version):
+        for col in self.columns:
+            if col.getClmID() == clmID and col.getColumnFamily() == columnFamily and col.getName() == column:
+                for v in col.getVersiones():
+                    if v.getVersion() == version:
+                        col.getVersiones().remove(v)
+                        self.metadata.updateLastMod()
+                        return True
+        return False
+    
+    def truncate(self):
+        self.columns = []
+        self.metadata.updateLastMod()
+        self.metadata.setEnabled()
+
+    def deleteAllVersions(self, clmID):
+        for col in self.columns:
+            if col.getClmID() == clmID:
+                col.getVersiones().clear()
+                self.metadata.updateLastMod()
+                return True
+        return False
+
     def getTableName(self):
         return self.tablename
     

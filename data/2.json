@@ -1,0 +1,20 @@
+{
+    "tablename": "2",
+    "indexRow": 1,
+    "columns": [
+        {
+            "name": "texto",
+            "type": "String",
+            "clmID": "sebas",
+            "columnFamily": "cf",
+            "versiones": [
+                
+            ]
+        }
+    ],
+    "metadata": {
+        "name": "2",
+        "ultimaMod": "2024-05-29T23:53:58.623268",
+        "enabled": true
+    }
+}
