@@ -64,6 +64,24 @@ class Data:
     def lastMod(self):
         self.metadata.updateLastMod()
 
+    def deleteVersion(self, clmID, columnFamily, column, version):
+        for col in self.columns:
+            if col.getClmID() == clmID and col.getColumnFamily() == columnFamily and col.getName() == column:
+                for v in col.getVersiones():
+                    if v.getVersion() == version:
+                        col.getVersiones().remove(v)
+                        self.metadata.updateLastMod()
+                        return True
+        return False
+    
+    def deleteAllVersions(self, clmID):
+        for col in self.columns:
+            if col.getClmID() == clmID:
+                col.getVersiones().clear()
+                self.metadata.updateLastMod()
+                return True
+        return False
+
     def truncate(self):
         self.columns = []
         self.metadata.updateLastMod()

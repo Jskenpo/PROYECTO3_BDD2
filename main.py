@@ -158,6 +158,31 @@ def getIndextableData(table):
         if d.getTableName() == table:
             return count-1
         count += 1
+
+def deleteVersion():
+    table = readJson()
+    index = getIndextableData(table)
+    if index is not None:
+        clmID = input("Ingrese el Column ID: ")
+        columnFamily = input("Ingrese el Column Family: ")
+        column = input("Ingrese el nombre de la columna: ")
+        version = int(input("Ingrese la version a borrar: "))
+        if data[index].deleteVersion(clmID, columnFamily, column, version):
+            rw.updateJson(data[index])
+            print("Version eliminada")
+        else:
+            print("No se encontro la version")
+
+def deleteAll():
+    table = readJson()
+    index = getIndextableData(table)
+    if index is not None:
+        clmID = input("Ingrese el Column ID: ")
+        if data[index].deleteAllVersions(clmID):
+            rw.updateJson(data[index])
+            print("Todas las versiones eliminadas")
+        else:
+            print("No se encontro el columnID")
     
 def truncateTable():
     table = readJson()
@@ -211,10 +236,15 @@ while opcion != 13:
         table = readJson()
         printTypeData()
         index = getIndextableData(table)
-        printTable(index)
-        print("-------------------")
-        print("Tabla mostrada")
-        print("-------------------")
+        if index is not None and index < len(data):
+            printTable(index)
+            print("-------------------")
+            print("Tabla mostrada")
+            print("-------------------")
+        else:
+            print("-------------------")
+            print("La tabla no tiene datos o no existe")
+            print("-------------------")
 
     elif opcion == 4:
         table = readJson()
@@ -243,20 +273,22 @@ while opcion != 13:
             rw.deleteJson(table, data[index].getMetadata().getEnabled())    
 
     elif opcion == 10:
-        printDeleteMenu()
         print("-------------------")
         print("Delete")
         print("-------------------")
         while opcion != 3:
+            printDeleteMenu()
             opcion = int(input("Ingrese una opcion: "))
             if opcion == 1:
                 print("-------------------")
-                print("Version eliminada")
+                print("Delete")
                 print("-------------------")
+                deleteVersion()
             elif opcion == 2:
                 print("-------------------")
-                print("Versiones eliminadas")
+                print("Delete All")
                 print("-------------------")
+                deleteAll()
             elif opcion == 3:
                 print("-------------------")
                 print("Regresando")
