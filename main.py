@@ -2,9 +2,9 @@ from objetos.data import Data
 from objetos.columns import Column
 from objetos.timestamp import Versiones
 from objetos.metadata import Header
-
+from datetime import datetime
 import persistencia.ReadAndWrite as rw
-
+import os
 opcion = 0
 
 data = []
@@ -149,6 +149,84 @@ def printTable(table):
             break
     
     
+def alterTable(table_index):
+    table_index = next((i for i, d in enumerate(data) if d.getTableName() == table_index), None)
+    
+    if table_index is None:
+        print("El archivo especificado no existe. Por favor, asegúrate de ingresar un nombre de archivo válido.")
+        return
+    
+    table = data[table_index]
+    old_table_name = table.getTableName()  
+    
+    print("1. Editar nombre de la tabla")
+    print("2. Crear nueva column family")
+    print("3. Eliminar una column family")
+    print("4. Editar el nombre en la metadata")
+    option = int(input("Seleccione una opción: "))
+    
+def alterTable(table_index):
+    table_index = next((i for i, d in enumerate(data) if d.getTableName() == table_index), None)
+    
+    if table_index is None:
+        print("El archivo especificado no existe. Por favor, asegúrate de ingresar un nombre de archivo válido.")
+        return
+    
+    table = data[table_index]
+    old_table_name = table.getTableName()  
+    
+    print("1. Editar nombre de la tabla")
+    print("2. Crear nueva column family")
+    print("3. Eliminar una column family")
+    print("4. Editar el nombre en la metadata")
+    option = int(input("Seleccione una opción: "))
+    
+    if option == 1:
+        new_table_name = input("Ingrese el nuevo nombre de la tabla: ")
+        new_table = Data(new_table_name, table.getIndexRow(), table.getColumns(), table.getMetadata())
+        data[table_index] = new_table
+        table.getMetadata().updateName(new_table_name)
+        rw.updateJson(new_table)
+        
+        old_file_path = os.path.join(os.getcwd(), f"{old_table_name}.json")
+        print(f"Intentando eliminar el archivo antiguo: {old_file_path}")
+        try:
+            if os.path.exists(old_file_path):
+                os.remove(old_file_path)
+                print(f"Archivo {old_file_path} eliminado correctamente.")
+            else:
+                print(f"El archivo {old_file_path} no existe.")
+        except Exception as e:
+            print(f"Error al intentar eliminar el archivo {old_file_path}: {str(e)}")            
+    elif option == 2:
+        new_column_family = input("Ingrese el nombre de la nueva column family: ")
+        table = data[table_index]
+        if any(column.getColumnFamily() == new_column_family for column in table.getColumns()):
+            print("La columna familia ya existe en la tabla.")
+            return
+        else:
+            new_column_name = input("Ingrese el nombre de la nueva columna: ")
+            new_column_type = input("Ingrese el tipo de dato de la nueva columna: ")
+            new_column_value = input("Ingrese el valor de la nueva columna: ")
+            new_column_clmID = input("Ingrese el clmID de la nueva columna: ")
+            new_column = Column(new_column_clmID, new_column_name, new_column_type, new_column_family, [
+                Versiones(new_column_value, datetime.now().isoformat(), 1)
+            ])
+            table.getColumns().append(new_column)
+            rw.updateJson(table)
+            print("Nueva columna familia creada y columna agregada con éxito.")
+    elif option == 3:
+        column_family_to_delete = input("Ingrese el nombre de la column family a eliminar: ")
+        table = data[table_index]
+        for column in table.getColumns():
+            if column.getColumnFamily() == column_family_to_delete:
+                table.getColumns().remove(column)
+        rw.updateJson(table)
+    elif option == 4:
+        new_metadata_name = input("Ingrese el nuevo nombre de metadatos: ")
+        table.getMetadata().updateName(new_metadata_name)
+        rw.updateJson(table)
+
 
 
 def getIndextableData(table):
@@ -212,6 +290,8 @@ while opcion != 13:
         print("-------------------")
 
     elif opcion == 5:
+        table_index = readJson()
+        alterTable(table_index)
         print("-------------------")
         print("Alter table")
         print("-------------------")
