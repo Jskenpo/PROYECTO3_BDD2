@@ -27,7 +27,7 @@ def updateJson(data):
         json.dump(data.to_dict(), f, indent=4)
 
 def deleteJson(file, status):
-    if status:
+    if status == False:
         path = os.path.join('data', f'{file}.json')
         os.remove(path)
         print("...Tabla eliminada correctamente...")

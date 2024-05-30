@@ -11,7 +11,7 @@ data = []
 
 def printMain():
     #clear a console
-    print("\033[H\033[J")
+    #print("\033[H\033[J")
     menu = """
     1. Create Table
     2. Add Column
@@ -38,8 +38,8 @@ clm.clmID       column=cf:name, timestamp=versiones[-1], value=versiones[-1].val
 
 def printDropMenu():
     print("\033[H\033[J")
-    print("1. Drop Normal")
-    print("2. Drop All")
+    print("1. Drop All")
+    print("2. Regresar")
 
 def printDeleteMenu():
     print("\033[H\033[J")
@@ -47,7 +47,7 @@ def printDeleteMenu():
     print("2. Delete All")
 
 def printJsons():
-    print("\033[H\033[J")
+    #print("\033[H\033[J")
     jsons = rw.getJsonNames()
     count = 1
     for j in jsons:
@@ -222,11 +222,14 @@ while opcion != 13:
         print("-------------------")
         printDropMenu()
         type = int(input("Ingrese la opcion a realizar: "))
-        if type == 1:
-            table = readJson()
-            index = getIndextableData(table)
-            
-            rw.deleteJson(table, data[index].getMetadata().getEnabled())    
+        while type != 2:
+            if type == 1:
+                table = readJson()
+                index = getIndextableData(table)
+                rw.deleteJson(table, data[index].getMetadata().getEnabled())
+            elif type == 2:
+                #regresar al menu principal
+                break    
 
     elif opcion == 13:
         print("-------------------")
