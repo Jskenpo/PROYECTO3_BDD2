@@ -25,6 +25,13 @@ class Data:
             "metadata": self.metadata.to_dict()
         }
     
+    def checkClm(self, cf, rowID):
+        for c in self.columns:
+            if c.getColumnFamily() == cf and c.getClmID() == rowID:
+                print("Columna ya existe")
+                return c
+        return None
+    
     def uniqueCLMID(self):
         return set(c.getClmID() for c in self.columns)
     

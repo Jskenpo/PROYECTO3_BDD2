@@ -5,6 +5,8 @@ from objetos.metadata import Header
 
 import persistencia.ReadAndWrite as rw
 
+from datetime import datetime
+
 opcion = 0
 
 data = []
@@ -37,17 +39,14 @@ clm.clmID       column=cf:name, timestamp=versiones[-1], value=versiones[-1].val
 """
 
 def printDropMenu():
-    print("\033[H\033[J")
     print("1. Drop Normal")
     print("2. Drop All")
 
 def printDeleteMenu():
-    print("\033[H\033[J")
     print("1. Delete Normal")
     print("2. Delete All")
 
 def printJsons():
-    print("\033[H\033[J")
     jsons = rw.getJsonNames()
     count = 1
     for j in jsons:
@@ -81,7 +80,6 @@ def readJson():
 
 
 def printTypeData():
-    print("\033[H\033[J")
     print("Tipos de datos")
     print("1. String")
     print("2. Int")
@@ -111,7 +109,6 @@ def runSwitch(opcion):
     return switch.get(opcion,1)()
 
 def printData():
-    print("\033[H\033[J")
     count = 1
     for d in data:
         print(count, "Tabla: ", d.getTableName())
@@ -130,7 +127,6 @@ def printData():
         print("Enabled: ", d.getMetadata().getEnabled())
 
 def printTable(table):
-    print("\033[H\033[J")
     ftable = data[table]
     uniqueCLMID = ftable.uniqueCLMID()
 
@@ -147,9 +143,6 @@ def printTable(table):
         opcion = int(input("Ingrese una opcion: "))
         if opcion == 1:
             break
-    
-    
-
 
 def getIndextableData(table):
     count = 1
@@ -158,6 +151,21 @@ def getIndextableData(table):
             return count-1
         count += 1
     
+def printPutMenu():
+    print("1. Insertar")
+    print("2. Editar")
+    print("3. Volver")
+
+    return int(input("Ingrese una opcion: "))
+
+def printColumnFamily(table):
+    unique = data[table].uniqueCLMID()
+    count = 1
+    for u in unique:
+        print(count, ".- ", u)
+        count += 1
+
+    return (int(input("Ingrese una opcion: ")), unique[count-1])
 
 
 while opcion != 13:
@@ -226,7 +234,25 @@ while opcion != 13:
             table = readJson()
             index = getIndextableData(table)
             
-            rw.deleteJson(table, data[index].getMetadata().getEnabled())    
+            rw.deleteJson(table, data[index].getMetadata().getEnabled())
+    
+    elif opcion == 9:
+        # put
+        table = readJson()
+        index = getIndextableData(table)
+        printTable(index)
+        rowId = input("Ingrese el Row ID: ")
+        cf = input("Ingrese el Column Family: ")
+        value = input("Ingrese el valor: ")
+        column = data[index].checkClm(cf, rowId)
+        column.addVersiones(datetime.now().isoformat(), int(column.getVersiones()[-1].getVersion())+1, value)
+        data[index].getMetadata().updateLastMod()
+        rw.updateJson(data[index])
+        
+        
+                
+                
+
 
     elif opcion == 13:
         print("-------------------")

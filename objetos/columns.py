@@ -19,7 +19,7 @@ class Column:
         }
 
     def addVersiones(self, timestamp, version, value):
-        self.timestamp.append(
+        self.versiones.append(
             Versiones(value = value, timestamp=timestamp, version=version)
             )
 

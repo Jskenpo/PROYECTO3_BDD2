@@ -27,11 +27,34 @@
                     "version": 1
                 }
             ]
+        },
+        {
+            "name": "juancho",
+            "type": 2,
+            "clmID": "juancho",
+            "columnFamily": "cf3",
+            "versiones": [
+                {
+                    "value": 14,
+                    "timestamp": "2024-05-29T22:28:04.461474",
+                    "version": 1
+                },
+                {
+                    "value": "15",
+                    "timestamp": "2024-05-29T23:14:18.017078",
+                    "version": 2
+                },
+                {
+                    "value": "1",
+                    "timestamp": "2024-05-29T23:14:44.673176",
+                    "version": 3
+                }
+            ]
         }
     ],
     "metadata": {
         "name": "1",
-        "ultimaMod": "2024-05-29T19:37:27.533358",
+        "ultimaMod": "2024-05-29T23:14:44.673221",
         "enabled": true
     }
 }
