@@ -13,10 +13,10 @@ def printMain():
     #clear a console
     print("\033[H\033[J")
     menu = """
-    1. Create Table *
-    2. Add Column *
-    3. scan --- (Mostrar toda la tabla)                                                                                 (Tevi)
-    4. Deshabilitar tabla *
+    1. Create Table
+    2. Add Column
+    3. scan
+    4. Deshabilitar tabla
     5. Alter table --- (Agregar o quitar cf, cambio de indexrow, cambio version de version obj)                         (Valdez)
     6. Drop table --- (Borrar tabla si esta deshabilitada)                                                              (Manuel)
     8. Describe table --- (Mostrar metadata)                                                                            (Master)
@@ -49,9 +49,11 @@ def printDeleteMenu():
 def printJsons():
     print("\033[H\033[J")
     jsons = rw.getJsonNames()
+    count = 1
     for j in jsons:
         name = j.split(".")
-        print(name[0])
+        print(count,".- ", name[0])
+        count += 1
 
 def readJson():
     printJsons()
@@ -73,7 +75,7 @@ def readJson():
     
     # Crear instancia de Data y agregarla a la lista
     data.append(Data(jsonData["tablename"], jsonData["indexRow"], clm, mtd))
-    return jsonData["tablename"]
+    return file
 
 
 
@@ -135,8 +137,6 @@ def printTable(table):
     # imprimir de la manera anterior
     print("Row\t\t\tColumn+CELL")
 
-    
-
     for id in uniqueCLMID:
         clm = ftable.getColumnsOfClmID(id)
         for c in clm:
@@ -160,11 +160,11 @@ def getIndextableData(table):
     
 
 
-while opcion != 4:
+while opcion != 13:
     printMain()
     opcion = int(input("Ingrese una opcion: "))
 
-    if (opcion > 5 or opcion < 1):
+    if (opcion > 13 or opcion < 1):
         print("-------------------")
         print("Opcion incorrecta")
         print("-------------------")
@@ -216,7 +216,19 @@ while opcion != 4:
         print("Alter table")
         print("-------------------")
 
-    elif opcion == 8:
+    elif opcion == 6:
+        print("-------------------")
+        print("Drop table")
+        print("-------------------")
+        printDropMenu()
+        type = int(input("Ingrese la opcion a realizar: "))
+        if type == 1:
+            table = readJson()
+            index = getIndextableData(table)
+            
+            rw.deleteJson(table, data[index].getMetadata().getEnabled())    
+
+    elif opcion == 13:
         print("-------------------")
         print("Saliendo")
         print("-------------------")
