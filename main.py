@@ -11,7 +11,7 @@ data = []
 
 def printMain():
     #clear a console
-    print("\033[H\033[J")
+    #print("\033[H\033[J")
     menu = """
     1. Create Table
     2. Add Column
@@ -45,9 +45,10 @@ def printDeleteMenu():
     print("\033[H\033[J")
     print("1. Delete Normal")
     print("2. Delete All")
+    print("3. Regresar")
 
 def printJsons():
-    print("\033[H\033[J")
+    #print("\033[H\033[J")
     jsons = rw.getJsonNames()
     count = 1
     for j in jsons:
@@ -158,7 +159,20 @@ def getIndextableData(table):
             return count-1
         count += 1
     
+def truncateTable():
+    table = readJson()
+    index = getIndextableData(table)
+    if index is not None:
+        print(f"Truncating '{table}' table (it may takes a while):")
+        print(" - Disabling table...")
+        data[index].getMetadata().setDisabled()
+        rw.updateJson(data[index])
 
+        print(" - Truncating table...")
+        data[index].truncate()
+        rw.updateJson(data[index])
+
+        print(f"Table '{table}' truncated successfully.")
 
 while opcion != 13:
     printMain()
@@ -227,6 +241,32 @@ while opcion != 13:
             index = getIndextableData(table)
             
             rw.deleteJson(table, data[index].getMetadata().getEnabled())    
+
+    elif opcion == 10:
+        printDeleteMenu()
+        print("-------------------")
+        print("Delete")
+        print("-------------------")
+        while opcion != 3:
+            opcion = int(input("Ingrese una opcion: "))
+            if opcion == 1:
+                print("-------------------")
+                print("Version eliminada")
+                print("-------------------")
+            elif opcion == 2:
+                print("-------------------")
+                print("Versiones eliminadas")
+                print("-------------------")
+            elif opcion == 3:
+                print("-------------------")
+                print("Regresando")
+                print("-------------------")
+    
+    elif opcion == 12:
+        print("-------------------")
+        print("Truncate")
+        print("-------------------")
+        truncateTable()
 
     elif opcion == 13:
         print("-------------------")

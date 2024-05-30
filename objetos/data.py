@@ -63,3 +63,8 @@ class Data:
     
     def lastMod(self):
         self.metadata.updateLastMod()
+
+    def truncate(self):
+        self.columns = []
+        self.metadata.updateLastMod()
+        self.metadata.setEnabled()
